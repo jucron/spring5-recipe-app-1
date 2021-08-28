@@ -1,6 +1,7 @@
 package guru.springframework.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -18,6 +19,11 @@ public class Recipe {
     private String directions;
     //todo add
     //private Difficulty difficulty;
+
+    //Using 'mappedBy' is saying the entity below is the inverse of the relationship.
+    //This means 'recipe' is the owner and will carry the foreign key.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 
     @Lob //Large-objects : makes this field to be a large Byte object (BLOB - Binary-large-object)
     private Byte[] image;
@@ -103,5 +109,13 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
