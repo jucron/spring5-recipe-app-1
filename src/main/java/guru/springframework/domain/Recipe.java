@@ -28,6 +28,9 @@ public class Recipe {
     @Lob //Large-objects : makes this field to be a large Byte object (BLOB - Binary-large-object)
     private Byte[] image;
 
+    @Enumerated(value = EnumType.STRING) //if you use 'ORDINAL', it will apply numbers to each enumeration (ex 1,2,3)
+    private Difficulty difficulty;
+
     @OneToOne(cascade = CascadeType.ALL) //Owner.
     private Notes notes;
 
@@ -117,5 +120,13 @@ public class Recipe {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
