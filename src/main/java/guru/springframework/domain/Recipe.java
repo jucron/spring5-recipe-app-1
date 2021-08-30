@@ -17,11 +17,9 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    //todo add
-    //private Difficulty difficulty;
 
-    //Using 'mappedBy' is saying the entity below is the inverse of the relationship.
-    //This means 'recipe' is the owner and will carry the foreign key.
+    //"mapped by" is saying the field 'recipe' (from Ingredient Class) will have the foreign key.
+    // Not doing that, Hibernate will create an extra relation-table unnecessary.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
@@ -33,6 +31,14 @@ public class Recipe {
 
     @OneToOne(cascade = CascadeType.ALL) //Owner.
     private Notes notes;
+
+    @ManyToMany
+    //NOTE THAT IF WE DONT DO THIS BELOW, HIBERNATE WILL GENERATE A JOINT TABLE AUTOMATICALLY
+    //Joint tables are automatically built in '..Many..' annotations, unless you select 'mapped by'
+    @JoinTable(name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -128,5 +134,13 @@ public class Recipe {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
