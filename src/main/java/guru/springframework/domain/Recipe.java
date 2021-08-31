@@ -18,8 +18,10 @@ public class Recipe {
     private String url;
     private String directions;
 
-    //"mapped by" is saying the field 'recipe' (from Ingredient Class) will have the foreign key.
-    // Not doing that, Hibernate will create an extra relation-table unnecessary.
+    //"mappedBy" is saying that the Class containing the field 'recipe' (called Ingredient)
+    // will hold the foreign key. It is basically saying the foreign key will be allocated in
+    // the other Entity of the relationship. This also avoids Hibernate to create an extra
+    // joint-table unnecessarily.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
@@ -33,8 +35,8 @@ public class Recipe {
     private Notes notes;
 
     @ManyToMany
-    //NOTE THAT IF WE DONT DO THIS BELOW, HIBERNATE WILL GENERATE A JOINT TABLE AUTOMATICALLY
-    //Joint tables are automatically built in '..Many..' annotations, unless you select 'mapped by'
+    //NOTE THAT IF WE DON'T DO THIS BELOW, HIBERNATE WILL GENERATE A JOINT TABLE AUTOMATICALLY
+    //Joint tables are automatically built in '...Many...' annotations, unless you select 'mapped by'
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
