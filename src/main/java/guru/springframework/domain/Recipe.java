@@ -123,8 +123,17 @@ public class Recipe {
         return notes;
     }
 
+    //Refactoring setter to apply bi-directional relationship
+    //It's important to encapsulate the logic in one spot
     public void setNotes(Notes notes) {
         this.notes = notes;
+        notes.setRecipe(this);
+    }
+
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
     }
 
     public Set<Ingredient> getIngredients() {
