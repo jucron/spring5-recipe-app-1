@@ -1,6 +1,7 @@
 package guru.springframework.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,6 +17,8 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    @Lob
     private String directions;
 
     //"mappedBy" is saying that the Class containing the field 'recipe' (called Ingredient)
@@ -23,9 +26,11 @@ public class Recipe {
     // the other Entity of the relationship. This also avoids Hibernate to create an extra
     // joint-table unnecessarily.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
-    @Lob //Large-objects : makes this field to be a large Byte object (BLOB - Binary-large-object)
+    //Large-objects : makes this field to be a large Byte object (BLOB - Binary-large-object)
+    //Lob annotation makes this data to store more than 255 characters
+    @Lob
     private Byte[] image;
 
     @Enumerated(value = EnumType.STRING) //if you use 'ORDINAL', it will apply numbers to each enumeration (ex 1,2,3)
@@ -38,9 +43,9 @@ public class Recipe {
     //NOTE THAT IF WE DON'T DO THIS BELOW, HIBERNATE WILL GENERATE A JOINT TABLE AUTOMATICALLY
     //Joint tables are automatically built in '...Many...' annotations, unless you select 'mapped by'
     @JoinTable(name = "recipe_category",
-            joinColumns = @JoinColumn(name = "recipe_id"),
+        joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     public Long getId() {
         return id;
