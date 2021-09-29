@@ -49,7 +49,8 @@ public class Recipe {
         joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
-// GETTERS AND SETTERS (DELETED) ARE TAKEN CARED BY LOMBOK:
+
+    // GETTERS AND SETTERS (DELETED) ARE TAKEN CARED BY LOMBOK:
 
     //Refactoring setters and getters to apply bi-directional relationship (Helper Method)
     //It's important to encapsulate the logic in one spot
