@@ -1,6 +1,6 @@
 package guru.springframework.converters;
 
-import guru.springframework.commands.CategoryCommand;
+import guru.springframework.commands_DTOs.CategoryCommand;
 import guru.springframework.domain.Category;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;

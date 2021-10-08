@@ -1,9 +1,9 @@
 package guru.springframework.converters;
 
-import guru.springframework.commands.CategoryCommand;
-import guru.springframework.commands.IngredientCommand;
-import guru.springframework.commands.NotesCommand;
-import guru.springframework.commands.RecipeCommand;
+import guru.springframework.commands_DTOs.CategoryCommand;
+import guru.springframework.commands_DTOs.IngredientCommand;
+import guru.springframework.commands_DTOs.NotesCommand;
+import guru.springframework.commands_DTOs.RecipeCommand;
 import guru.springframework.domain.Difficulty;
 import guru.springframework.domain.Recipe;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package guru.springframework.commands;
+package guru.springframework.commands_DTOs;
 
 import guru.springframework.domain.Difficulty;
 import lombok.Getter;

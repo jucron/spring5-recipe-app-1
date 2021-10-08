@@ -1,6 +1,6 @@
 package guru.springframework.services;
 
-import guru.springframework.commands.RecipeCommand;
+import guru.springframework.commands_DTOs.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
@@ -44,13 +44,12 @@ public class RecipeServiceImpl implements RecipeService {
         if (!recipeOptional.isPresent()) {
             throw new RuntimeException("Recipe Not Found!");
         }
-
         return recipeOptional.get();
     }
 
     @Override
     @Transactional
-    public RecipeCommand saveRecipeCommand(RecipeCommand command) {
+    public RecipeCommand saveRecipeCommand(RecipeCommand command) { //RecipeCommand (DTO) comes from UI layer
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
