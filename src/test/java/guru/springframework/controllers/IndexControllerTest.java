@@ -31,17 +31,18 @@ public class IndexControllerTest {
 
     IndexController controller;
 
+    MockMvc mockMvc;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         controller = new IndexController(recipeService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
     public void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
@@ -49,15 +50,14 @@ public class IndexControllerTest {
 
     @Test
     public void getIndexPage() throws Exception {
-
         //given
         Set<Recipe> recipes = new HashSet<>();
-        recipes.add(new Recipe());
+        recipes.add(new Recipe()); //first recipe added
 
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
-        recipes.add(recipe);
+        recipes.add(recipe); //second recipe added
 
         when(recipeService.getRecipes()).thenReturn(recipes);
 
