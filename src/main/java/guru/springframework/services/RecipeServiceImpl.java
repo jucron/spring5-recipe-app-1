@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Optional;
-import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j //adding LOMBOK for logging tool!
 @Service
@@ -28,10 +28,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Set<Recipe> getRecipes() {
+//    public Set<Recipe> getRecipes() {
+    public TreeSet<Recipe> getRecipes() {
         log.debug("I'm in the service");
 
-        Set<Recipe> recipeSet = new HashSet<>();
+        TreeSet<Recipe> recipeSet = new TreeSet<>(Comparator.comparingInt(o -> (o.getId().intValue())));
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         return recipeSet;
     }
@@ -44,6 +45,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (!recipeOptional.isPresent()) {
             throw new RuntimeException("Recipe Not Found!");
         }
+
         return recipeOptional.get();
     }
 
@@ -61,5 +63,10 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId:" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Override
+    public void deleteById(Long idToDelete) {
+        recipeRepository.deleteById(idToDelete);
     }
 }

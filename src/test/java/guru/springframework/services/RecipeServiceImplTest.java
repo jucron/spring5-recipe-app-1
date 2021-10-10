@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Optional;
-import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -56,7 +56,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeCoomandByIdTest() throws Exception {
+    public void getRecipeCommandByIdTest() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -78,17 +78,35 @@ public class RecipeServiceImplTest {
     @Test
     public void getRecipesTest() throws Exception {
 
-        //Creating a new recipe to inject in testing
+        //Creating a new recipe to inject into testing
         Recipe recipe = new Recipe();
-        HashSet receipesData = new HashSet();
-        receipesData.add(recipe);
+        recipe.setId(1L);
+        TreeSet<Recipe> recipesData = new TreeSet<>(Comparator.comparingInt(o -> (o.getId().intValue())));
+//        HashSet recipesData = new HashSet();
+        recipesData.add(recipe);
 
-        when(recipeRepository.findAll()).thenReturn(receipesData);
+        //when(recipeService.getRecipes()).thenReturn(recipesData);
+        when(recipeRepository.findAll()).thenReturn(recipesData);
 
-        Set<Recipe> recipes = recipeService.getRecipes();
+        TreeSet<Recipe> recipes = recipeService.getRecipes();
 
         assertEquals(recipes.size(), 1);
         verify(recipeRepository, times(1)).findAll();
         verify(recipeRepository, never()).findById(anyLong());
+    }
+
+    @Test
+    public void testDeleteById() throws Exception {
+
+        //given
+        Long idToDelete = Long.valueOf(2L);
+
+        //when
+        recipeService.deleteById(idToDelete);
+
+        //no 'when', since method has void return type
+
+        //then
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }
