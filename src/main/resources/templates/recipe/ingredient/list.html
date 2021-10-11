@@ -19,14 +19,21 @@
 </head>
 <body>
 <!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
-<!--/*@thymesVar id="ingredients" type="java.util.Set<guru.springframework.commands.IngredientCommand>"*/-->
+<!--/*@thymesVar id="ingredients" type="java.util.Set<guru.springframework.commands_DTOs.IngredientCommand>"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="offset-md-3 col-md-6">
             <div class="card border-dark">
 
                 <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-11 ">
                     <h2 class="card-title">Ingredients</h2>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/new'}" role="button">New</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
 
