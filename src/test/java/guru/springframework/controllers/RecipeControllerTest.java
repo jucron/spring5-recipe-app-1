@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import guru.springframework.commands_DTOs.RecipeCommand;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +49,15 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk()) //check status
                 .andExpect(view().name("recipe/show")) //check url
                 .andExpect(model().attributeExists("recipe")); // check if data was sent to the page
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
